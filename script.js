@@ -1,6 +1,5 @@
 // Список треков с локальными путями
 const tracks = [
-const tracks = [
     {
         name: 'Angelseek',
         artist: 'Ado',
