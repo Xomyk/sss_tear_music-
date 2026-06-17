@@ -4,22 +4,48 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Музыкальный стриминг</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 40px; background: #f0f0f0; }
-        h1 { color: #1db954; }
-        .player { background: white; padding: 20px; border-radius: 10px; max-width: 500px; }
-        audio { width: 100%; margin-top: 10px; }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>🎵 Музыкальный стриминг</h1>
+    <header>
+        <div class="logo">🎵 MusicStream</div>
+        <nav>
+            <a href="#">Главная</a>
+            <a href="#">Плейлисты</a>
+            <a href="#">Поиск</a>
+        </nav>
+    </header>
+
     <div class="player">
-        <p><strong>Сейчас играет:</strong> Пример трека — Исполнитель</p>
-        <audio controls>
-            <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
-            Ваш браузер не поддерживает аудио.
-        </audio>
+        <h2>🎧 Сейчас играет</h2>
+        <div class="track-info">
+            <div class="cover" style="background-image: url('https://via.placeholder.com/80');"></div>
+            <div>
+                <div class="track-name" id="track-name">Загрузка...</div>
+                <div class="track-artist" id="track-artist">...</div>
+            </div>
+        </div>
+        <audio id="audio-player" controls></audio>
     </div>
-    <p>Добро пожаловать в мой стриминговый сервис!</p>
+
+    <section class="playlists">
+        <div class="playlist-card">
+            <img src="https://via.placeholder.com/200x200/1db954/000?text=Плейлист+1" alt="Плейлист 1">
+            <h3>Рок хиты</h3>
+            <p>12 треков</p>
+        </div>
+        <div class="playlist-card">
+            <img src="https://via.placeholder.com/200x200/1db954/000?text=Плейлист+2" alt="Плейлист 2">
+            <h3>Для учёбы</h3>
+            <p>8 треков</p>
+        </div>
+        <div class="playlist-card">
+            <img src="https://via.placeholder.com/200x200/1db954/000?text=Плейлист+3" alt="Плейлист 3">
+            <h3>Поп-музыка</h3>
+            <p>15 треков</p>
+        </div>
+    </section>
+
+    <script src="script.js"></script>
 </body>
 </html>
