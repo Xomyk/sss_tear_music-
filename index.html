@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Музыкальный стриминг</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css" />
 </head>
 <body>
     <header>
@@ -16,37 +16,54 @@
         </nav>
     </header>
 
+    <!-- Плеер -->
     <div class="player">
         <h2>🎧 Сейчас играет</h2>
         <div class="track-info">
-            <!-- ⚠️ Здесь добавлен id="track-cover", inline-стиль убран (будет устанавливаться скриптом) -->
             <div class="cover" id="track-cover"></div>
             <div>
                 <div class="track-name" id="track-name">Загрузка...</div>
                 <div class="track-artist" id="track-artist">...</div>
+                <div class="track-actions">
+                    <button id="like-btn" class="like-btn">❤️</button>
+                    <button id="repeat-btn" class="repeat-btn">🔁</button>
+                </div>
             </div>
         </div>
         <audio id="audio-player" controls></audio>
-        <!-- Добавляем кнопки управления (если их ещё нет) -->
         <div class="controls">
             <button onclick="prevTrack()">⏮️ Предыдущий</button>
             <button onclick="nextTrack()">Следующий ⏭️</button>
         </div>
     </div>
 
+    <!-- Панель управления плейлистом -->
+    <div class="playlist-panel">
+        <div class="all-tracks">
+            <h3>🎵 Все треки</h3>
+            <ul id="all-tracks-list"></ul>
+        </div>
+        <div class="my-playlist">
+            <h3>📋 Мой плейлист</h3>
+            <ul id="playlist-list"></ul>
+            <button id="clear-playlist">Очистить плейлист</button>
+        </div>
+    </div>
+
+    <!-- Декоративные карточки -->
     <section class="playlists">
         <div class="playlist-card">
-            <img src="https://via.placeholder.com/200x200/1db954/000?text=Плейлист+1" alt="Плейлист 1">
+            <img src="https://via.placeholder.com/200x200/1db954/000?text=Плейлист+1" alt="Плейлист 1" />
             <h3>Рок хиты</h3>
             <p>12 треков</p>
         </div>
         <div class="playlist-card">
-            <img src="https://via.placeholder.com/200x200/1db954/000?text=Плейлист+2" alt="Плейлист 2">
+            <img src="https://via.placeholder.com/200x200/1db954/000?text=Плейлист+2" alt="Плейлист 2" />
             <h3>Для учёбы</h3>
             <p>8 треков</p>
         </div>
         <div class="playlist-card">
-            <img src="https://via.placeholder.com/200x200/1db954/000?text=Плейлист+3" alt="Плейлист 3">
+            <img src="https://via.placeholder.com/200x200/1db954/000?text=Плейлист+3" alt="Плейлист 3" />
             <h3>Поп-музыка</h3>
             <p>15 треков</p>
         </div>
