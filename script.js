@@ -1,4 +1,4 @@
-// ----- Данные треков (ваш массив) -----
+// ----- Данные треков (точные имена из папки) -----
 const tracks = [
     {
         name: 'Angelseek',
@@ -21,24 +21,23 @@ const tracks = [
     {
         name: 'The Unknowing',
         artist: 'Jfarrari',
-        src: 'assets/tracks/Jfarrani_-_The_Unknowing.mp3',
-        cover: 'assets/covers/The Unknowing.jpg'
+        src: 'assets/tracks/Jfarrani_-_The_Unknowing.mp3',   // одна 'r' в Jfarrani
+        cover: 'assets/covers/The Unknowing.jpg'            // с пробелом – но лучше переименовать
     },
     {
         name: 'AIZO',
         artist: 'King Gnu',
-        src: 'assets/tracks/King_Gnu_-_AlZO.mp3',
+        src: 'assets/tracks/King_Gnu_-_AlZO.mp3',           // AlZO с заглавной A и L, не AIZO
         cover: 'assets/covers/aizo.jpg'
     }
 ];
 
-// ----- Состояние -----
+// ----- Остальной код (такой же, как в прошлый раз, только с этими путями) -----
 let playlist = [];
 let currentPlaylistIndex = 0;
 let repeatMode = 0;
 let likedTracks = new Set();
 
-// Элементы DOM
 const audio = document.getElementById('audio-player');
 const trackNameEl = document.getElementById('track-name');
 const artistEl = document.getElementById('track-artist');
@@ -49,26 +48,22 @@ const allTracksList = document.getElementById('all-tracks-list');
 const playlistList = document.getElementById('playlist-list');
 const clearPlaylistBtn = document.getElementById('clear-playlist');
 
-// ----- Загрузка состояния из localStorage -----
 function loadState() {
     try {
         const savedPlaylist = localStorage.getItem('playlist');
         if (savedPlaylist) playlist = JSON.parse(savedPlaylist);
         else playlist = tracks.map((_, i) => i);
-
         const savedLikes = localStorage.getItem('likedTracks');
         if (savedLikes) {
             const arr = JSON.parse(savedLikes);
             likedTracks = new Set(arr);
         }
-
         const savedRepeat = localStorage.getItem('repeatMode');
         if (savedRepeat !== null) repeatMode = parseInt(savedRepeat, 10);
-
         const savedIndex = localStorage.getItem('currentPlaylistIndex');
         if (savedIndex !== null) currentPlaylistIndex = parseInt(savedIndex, 10);
     } catch (e) {
-        console.warn('Ошибка загрузки состояния, используем значения по умолчанию');
+        console.warn('Ошибка загрузки состояния');
     }
     if (!playlist || playlist.length === 0) {
         playlist = tracks.map((_, i) => i);
@@ -76,7 +71,6 @@ function loadState() {
     if (currentPlaylistIndex >= playlist.length) currentPlaylistIndex = 0;
 }
 
-// ----- Сохранение состояния в localStorage -----
 function saveState() {
     localStorage.setItem('playlist', JSON.stringify(playlist));
     localStorage.setItem('likedTracks', JSON.stringify([...likedTracks]));
@@ -84,7 +78,6 @@ function saveState() {
     localStorage.setItem('currentPlaylistIndex', String(currentPlaylistIndex));
 }
 
-// ----- Загрузка трека (без автовоспроизведения) -----
 function loadTrack(index) {
     if (playlist.length === 0) {
         audio.pause();
@@ -106,22 +99,18 @@ function loadTrack(index) {
     trackNameEl.textContent = track.name;
     artistEl.textContent = track.artist;
     coverEl.style.backgroundImage = `url('${track.cover}')`;
-
     updateLikeButton();
     saveState();
-    // Не вызываем audio.play() автоматически!
 }
 
-// ----- Воспроизведение текущего трека (с проверкой) -----
 function playCurrentTrack() {
     if (audio.src) {
         audio.play().catch(e => {
-            console.warn('Не удалось воспроизвести автоматически, нужен клик пользователя');
+            console.warn('Автовоспроизведение заблокировано – кликните по плееру');
         });
     }
 }
 
-// ----- Обновить кнопку лайка -----
 function updateLikeButton() {
     if (playlist.length === 0) return;
     const trackIndex = playlist[currentPlaylistIndex];
@@ -130,21 +119,16 @@ function updateLikeButton() {
     likeBtn.classList.toggle('liked', isLiked);
 }
 
-// ----- Переключение лайка -----
 function toggleLike() {
     if (playlist.length === 0) return;
     const trackIndex = playlist[currentPlaylistIndex];
-    if (likedTracks.has(trackIndex)) {
-        likedTracks.delete(trackIndex);
-    } else {
-        likedTracks.add(trackIndex);
-    }
+    if (likedTracks.has(trackIndex)) likedTracks.delete(trackIndex);
+    else likedTracks.add(trackIndex);
     updateLikeButton();
     saveState();
     renderAllTracks();
 }
 
-// ----- Переключение режима повтора -----
 function toggleRepeat() {
     repeatMode = (repeatMode + 1) % 3;
     updateRepeatButton();
@@ -156,7 +140,6 @@ function updateRepeatButton() {
     repeatBtn.classList.toggle('repeat-active', repeatMode !== 0);
 }
 
-// ----- Следующий трек -----
 function nextTrack() {
     if (playlist.length === 0) return;
     if (repeatMode === 1) {
@@ -166,9 +149,8 @@ function nextTrack() {
     }
     let newIndex = currentPlaylistIndex + 1;
     if (newIndex >= playlist.length) {
-        if (repeatMode === 2) {
-            newIndex = 0;
-        } else {
+        if (repeatMode === 2) newIndex = 0;
+        else {
             newIndex = playlist.length - 1;
             audio.pause();
             audio.currentTime = 0;
@@ -179,7 +161,6 @@ function nextTrack() {
     playCurrentTrack();
 }
 
-// ----- Предыдущий трек -----
 function prevTrack() {
     if (playlist.length === 0) return;
     if (repeatMode === 1) {
@@ -189,17 +170,13 @@ function prevTrack() {
     }
     let newIndex = currentPlaylistIndex - 1;
     if (newIndex < 0) {
-        if (repeatMode === 2) {
-            newIndex = playlist.length - 1;
-        } else {
-            newIndex = 0;
-        }
+        if (repeatMode === 2) newIndex = playlist.length - 1;
+        else newIndex = 0;
     }
     loadTrack(newIndex);
     playCurrentTrack();
 }
 
-// ----- Обработчик окончания трека -----
 audio.addEventListener('ended', () => {
     if (repeatMode === 1) {
         audio.currentTime = 0;
@@ -209,7 +186,6 @@ audio.addEventListener('ended', () => {
     }
 });
 
-// ----- Рендеринг списка всех треков -----
 function renderAllTracks() {
     allTracksList.innerHTML = '';
     tracks.forEach((track, index) => {
@@ -217,17 +193,14 @@ function renderAllTracks() {
         const meta = document.createElement('div');
         meta.className = 'track-meta';
         meta.innerHTML = `<span class="name">${track.name}</span><span class="artist">${track.artist}</span>`;
-
         const actions = document.createElement('div');
         actions.className = 'track-actions-small';
-
         if (likedTracks.has(index)) {
             const likeSpan = document.createElement('span');
             likeSpan.className = 'like-indicator';
             likeSpan.textContent = '❤️';
             actions.appendChild(likeSpan);
         }
-
         const addBtn = document.createElement('button');
         addBtn.className = 'add-btn';
         addBtn.textContent = '+';
@@ -237,14 +210,12 @@ function renderAllTracks() {
             addToPlaylist(index);
         });
         actions.appendChild(addBtn);
-
         li.appendChild(meta);
         li.appendChild(actions);
         allTracksList.appendChild(li);
     });
 }
 
-// ----- Рендеринг текущего плейлиста -----
 function renderPlaylist() {
     playlistList.innerHTML = '';
     if (playlist.length === 0) {
@@ -262,10 +233,8 @@ function renderPlaylist() {
         const meta = document.createElement('div');
         meta.className = 'track-meta';
         meta.innerHTML = `<span class="name">${track.name}</span><span class="artist">${track.artist}</span>`;
-
         const actions = document.createElement('div');
         actions.className = 'track-actions-small';
-
         const playBtn = document.createElement('button');
         playBtn.textContent = '▶️';
         playBtn.title = 'Играть этот трек';
@@ -275,7 +244,6 @@ function renderPlaylist() {
             playCurrentTrack();
         });
         actions.appendChild(playBtn);
-
         const removeBtn = document.createElement('button');
         removeBtn.className = 'remove-btn';
         removeBtn.textContent = '✕';
@@ -285,14 +253,12 @@ function renderPlaylist() {
             removeFromPlaylist(pos);
         });
         actions.appendChild(removeBtn);
-
         li.appendChild(meta);
         li.appendChild(actions);
         playlistList.appendChild(li);
     });
 }
 
-// ----- Добавление трека в плейлист -----
 function addToPlaylist(trackIndex) {
     if (playlist.includes(trackIndex)) {
         alert('Этот трек уже есть в плейлисте');
@@ -303,18 +269,16 @@ function addToPlaylist(trackIndex) {
     renderPlaylist();
     if (playlist.length === 1) {
         loadTrack(0);
-        playCurrentTrack(); // пользователь только что кликнул, можно играть
+        playCurrentTrack();
     }
 }
 
-// ----- Удаление трека из плейлиста -----
 function removeFromPlaylist(pos) {
     if (pos < 0 || pos >= playlist.length) return;
     const wasCurrent = (pos === currentPlaylistIndex);
     playlist.splice(pos, 1);
     saveState();
     renderPlaylist();
-
     if (playlist.length === 0) {
         audio.pause();
         audio.src = '';
@@ -324,18 +288,15 @@ function removeFromPlaylist(pos) {
         currentPlaylistIndex = 0;
         return;
     }
-
     if (wasCurrent) {
         if (pos >= playlist.length) pos = playlist.length - 1;
         loadTrack(pos);
-        // не играем автоматически, пусть пользователь нажмёт
     } else if (pos < currentPlaylistIndex) {
         currentPlaylistIndex--;
         saveState();
     }
 }
 
-// ----- Очистка плейлиста -----
 function clearPlaylist() {
     if (confirm('Удалить все треки из плейлиста?')) {
         playlist = [];
@@ -350,7 +311,6 @@ function clearPlaylist() {
     }
 }
 
-// ----- Инициализация -----
 function init() {
     loadState();
     renderAllTracks();
@@ -358,23 +318,16 @@ function init() {
     updateRepeatButton();
     if (playlist.length > 0) {
         loadTrack(currentPlaylistIndex);
-        // Не вызываем play, ждём клик
     } else {
         trackNameEl.textContent = 'Нет треков';
         artistEl.textContent = 'Добавьте треки в плейлист';
         coverEl.style.backgroundImage = 'none';
     }
-    // Обработчики
     likeBtn.addEventListener('click', toggleLike);
     repeatBtn.addEventListener('click', toggleRepeat);
     clearPlaylistBtn.addEventListener('click', clearPlaylist);
-
-    // При клике на область плеера запускаем воспроизведение (если на паузе)
-    const playerEl = document.querySelector('.player');
-    playerEl.addEventListener('click', () => {
-        if (audio.src && audio.paused) {
-            playCurrentTrack();
-        }
+    document.querySelector('.player').addEventListener('click', () => {
+        if (audio.src && audio.paused) playCurrentTrack();
     });
 }
 
