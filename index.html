@@ -19,13 +19,19 @@
     <div class="player">
         <h2>🎧 Сейчас играет</h2>
         <div class="track-info">
-            <div class="cover" style="background-image: url('https://via.placeholder.com/80');"></div>
+            <!-- ⚠️ Здесь добавлен id="track-cover", inline-стиль убран (будет устанавливаться скриптом) -->
+            <div class="cover" id="track-cover"></div>
             <div>
                 <div class="track-name" id="track-name">Загрузка...</div>
                 <div class="track-artist" id="track-artist">...</div>
             </div>
         </div>
         <audio id="audio-player" controls></audio>
+        <!-- Добавляем кнопки управления (если их ещё нет) -->
+        <div class="controls">
+            <button onclick="prevTrack()">⏮️ Предыдущий</button>
+            <button onclick="nextTrack()">Следующий ⏭️</button>
+        </div>
     </div>
 
     <section class="playlists">
