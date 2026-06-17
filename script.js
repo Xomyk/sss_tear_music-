@@ -1,5 +1,6 @@
 // Список треков с локальными путями
 const tracks = [
+const tracks = [
     {
         name: 'Angelseek',
         artist: 'Ado',
@@ -7,27 +8,27 @@ const tracks = [
         cover: 'assets/covers/ado.jpg'
     },
     {
-        name: 'Cake_By_The_Ocean',
+        name: 'Cake By The Ocean',
         artist: 'DNCE',
         src: 'assets/tracks/DNCE_-_Cake_By_The_Ocean.mp3',
         cover: 'assets/covers/DNCEart.jpg'
     },
     {
         name: 'GRAVEDIGGER',
-        artist: 'Jimmy_Chang',
+        artist: 'Jimmy Chang',
         src: 'assets/tracks/Jimmy_Chang_-_GRAVEDIGGER.mp3',
         cover: 'assets/covers/Jimmy_Chang_-_GRAVEDIGGER.jpg'
     },
-     {
-        name: 'The_Unknowing',
+    {
+        name: 'The Unknowing',
         artist: 'Jfarrari',
-        src: 'assets/tracks/Jfarrari_-_The_Unknowing.mp3',
-        cover: 'assets/covers/The Unknowing.jpg'
+        src: 'assets/tracks/Jfarrani_-_The_Unknowing.mp3',  
+        cover: 'assets/covers/The Unknowing.jpg'            
     },
-     {
+    {
         name: 'AIZO',
-        artist: 'King_Gnu',
-        src: 'assets/tracks/King_Gnu_-_AIZO.mp3',
+        artist: 'King Gnu',
+        src: 'assets/tracks/King_Gnu_-_AlZO.mp3',          
         cover: 'assets/covers/aizo.jpg'
     }
 ];
