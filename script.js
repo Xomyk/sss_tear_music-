@@ -21,18 +21,18 @@ const tracks = [
     {
         name: 'The Unknowing',
         artist: 'Jfarrari',
-        src: 'assets/tracks/Jfarrani_-_The_Unknowing.mp3',   // одна 'r' в Jfarrani
-        cover: 'assets/covers/The Unknowing.jpg'            // с пробелом – но лучше переименовать
+        src: 'assets/tracks/Jfarrari_-_The_Unknowing.mp3',   // две 'r'!
+        cover: 'assets/covers/The_Unknowing.jpg'            // без пробела
     },
     {
         name: 'AIZO',
         artist: 'King Gnu',
-        src: 'assets/tracks/King_Gnu_-_AlZO.mp3',           // AlZO с заглавной A и L, не AIZO
+        src: 'assets/tracks/King_Gnu_-_AIZO.mp3',           // заглавная I
         cover: 'assets/covers/aizo.jpg'
     }
 ];
 
-// ----- Остальной код (такой же, как в прошлый раз, только с этими путями) -----
+// ----- Остальной код (полная копия из предыдущего исправления) -----
 let playlist = [];
 let currentPlaylistIndex = 0;
 let repeatMode = 0;
